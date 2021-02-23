@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "package": "potheads.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "potheads.refmap.json",
+  "mixins": [
+    "FlowerPotBlockAccessor"
+  ],
+  "minVersion": "0.8"
+}

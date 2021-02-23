@@ -1,0 +1,33 @@
+modLoader="javafml"
+loaderVersion="[34,)"
+issueTrackerURL="https://github.com/ochotonida/potheads/issues"
+license="MIT"
+
+[[mods]]
+modId = "potheads"
+version = "1.16.5-1.0.0"
+displayName = "Potheads"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/potheads"
+logoFile="logo.png"
+description='''Adds potted plants as items which you can wear on your head'''
+
+[[dependencies.potheads]]
+    modId="forge"
+    mandatory=true
+    versionRange="[34.1.0,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.potheads]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.3,1.17)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.potheads]]
+    modId="curios"
+    mandatory=true
+    versionRange="[1.16.5-4.0.4.0,)"
+    ordering="AFTER"
+    side="BOTH"
