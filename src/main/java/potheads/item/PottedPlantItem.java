@@ -32,6 +32,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class PottedPlantItem extends Item {
 
@@ -53,15 +54,25 @@ public class PottedPlantItem extends Item {
     @Override
     public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> items) {
         if (this.allowdedIn(tab)) {
-            for (Block block : ForgeRegistries.BLOCKS.getValues()) {
-                if (block instanceof FlowerPotBlock flowerPot && flowerPot.getEmptyPot() != flowerPot) {
-                    ItemStack stack = new ItemStack(this);
-                    // noinspection ConstantConditions
-                    stack.getOrCreateTag().putString("flower_pot", flowerPot.getRegistryName().toString());
-                    items.add(stack);
-                }
+            for (FlowerPotBlock flowerPot : getAllFlowerPots()) {
+                items.add(createItem(flowerPot));
             }
         }
+    }
+
+    public static List<FlowerPotBlock> getAllFlowerPots() {
+        return ForgeRegistries.BLOCKS.getValues()
+                .stream()
+                .filter(block -> block instanceof FlowerPotBlock flowerPot && flowerPot.getEmptyPot() != flowerPot)
+                .map(block -> (FlowerPotBlock) block)
+                .collect(Collectors.toList());
+    }
+
+    public ItemStack createItem(FlowerPotBlock flowerPot) {
+        ItemStack result = new ItemStack(this);
+        // noinspection ConstantConditions
+        result.getOrCreateTag().putString("flower_pot", flowerPot.getRegistryName().toString());
+        return result;
     }
 
     @Override

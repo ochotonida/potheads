@@ -17,8 +17,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import potheads.integration.curios.CuriosIntegration;
 import potheads.item.PottedPlantItem;
-import potheads.recipe.UnpottingRecipe;
 import potheads.recipe.PottingRecipe;
+import potheads.recipe.UnpottingRecipe;
 
 @Mod(Potheads.MODID)
 public class Potheads {
@@ -36,7 +36,7 @@ public class Potheads {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
 
-    public static final RegistryObject<Item> POTTED_PLANT = ITEMS.register("potted_plant", () -> new PottedPlantItem(new Item.Properties().tab(CREATIVE_TAB)));
+    public static final RegistryObject<PottedPlantItem> POTTED_PLANT = ITEMS.register("potted_plant", () -> new PottedPlantItem(new Item.Properties().tab(CREATIVE_TAB)));
 
     public static final RegistryObject<RecipeSerializer<?>> POTTED_PLANT_CRAFTING_SERIALIZER = RECIPE_SERIALIZERS.register("potting", () -> new SimpleRecipeSerializer<>(PottingRecipe::new));
     public static final RegistryObject<RecipeSerializer<?>> PLANT_FROM_POT_CRAFTING_SERIALIZER = RECIPE_SERIALIZERS.register("unpotting", () -> new SimpleRecipeSerializer<>(UnpottingRecipe::new));
