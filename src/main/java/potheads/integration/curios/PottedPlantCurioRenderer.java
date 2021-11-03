@@ -1,4 +1,4 @@
-package potheads.integration;
+package potheads.integration.curios;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;

@@ -1,4 +1,4 @@
-package potheads.integration;
+package potheads.integration.curios;
 
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.InterModComms;

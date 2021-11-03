@@ -13,9 +13,9 @@ import potheads.Potheads;
 
 import java.util.function.Supplier;
 
-public class PottedPlantRecipe extends CustomRecipe {
+public class PottingRecipe extends CustomRecipe {
 
-    public PottedPlantRecipe(ResourceLocation id) {
+    public PottingRecipe(ResourceLocation id) {
         super(id);
     }
 

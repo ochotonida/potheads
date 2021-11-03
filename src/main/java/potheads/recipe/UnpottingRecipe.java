@@ -11,9 +11,9 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import potheads.Potheads;
 import potheads.item.PottedPlantItem;
 
-public class PlantFromPotRecipe extends CustomRecipe {
+public class UnpottingRecipe extends CustomRecipe {
 
-    public PlantFromPotRecipe(ResourceLocation id) {
+    public UnpottingRecipe(ResourceLocation id) {
         super(id);
     }
 

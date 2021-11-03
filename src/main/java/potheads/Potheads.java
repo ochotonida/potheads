@@ -15,10 +15,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import potheads.integration.CuriosIntegration;
+import potheads.integration.curios.CuriosIntegration;
 import potheads.item.PottedPlantItem;
-import potheads.recipe.PlantFromPotRecipe;
-import potheads.recipe.PottedPlantRecipe;
+import potheads.recipe.UnpottingRecipe;
+import potheads.recipe.PottingRecipe;
 
 @Mod(Potheads.MODID)
 public class Potheads {
@@ -38,8 +38,8 @@ public class Potheads {
 
     public static final RegistryObject<Item> POTTED_PLANT = ITEMS.register("potted_plant", () -> new PottedPlantItem(new Item.Properties().tab(CREATIVE_TAB)));
 
-    public static final RegistryObject<RecipeSerializer<?>> POTTED_PLANT_CRAFTING_SERIALIZER = RECIPE_SERIALIZERS.register("crafting_special_potted_plant", () -> new SimpleRecipeSerializer<>(PottedPlantRecipe::new));
-    public static final RegistryObject<RecipeSerializer<?>> PLANT_FROM_POT_CRAFTING_SERIALIZER = RECIPE_SERIALIZERS.register("crafting_special_plant_from_pot", () -> new SimpleRecipeSerializer<>(PlantFromPotRecipe::new));
+    public static final RegistryObject<RecipeSerializer<?>> POTTED_PLANT_CRAFTING_SERIALIZER = RECIPE_SERIALIZERS.register("potting", () -> new SimpleRecipeSerializer<>(PottingRecipe::new));
+    public static final RegistryObject<RecipeSerializer<?>> PLANT_FROM_POT_CRAFTING_SERIALIZER = RECIPE_SERIALIZERS.register("unpotting", () -> new SimpleRecipeSerializer<>(UnpottingRecipe::new));
 
     public Potheads() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
