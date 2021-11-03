@@ -6,7 +6,7 @@ license="MIT"
 [[mods]]
 modId = "potheads"
 version = "1.17.1-1.0.0"
-displayName = "Potheads"
+displayName = "PotHeads"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/potheads" # TODO
 logoFile="logo.png" # TODO
 description='''Adds potted plants as items'''

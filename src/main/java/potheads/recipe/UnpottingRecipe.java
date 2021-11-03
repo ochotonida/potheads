@@ -8,8 +8,8 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.FlowerPotBlock;
-import potheads.Potheads;
-import potheads.item.PottedPlantItem;
+import potheads.init.ModItems;
+import potheads.init.ModRecipeSerializers;
 
 public class UnpottingRecipe extends CustomRecipe {
 
@@ -28,10 +28,10 @@ public class UnpottingRecipe extends CustomRecipe {
         for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
             if (!inventory.getItem(slot).isEmpty()) {
                 ItemStack stack = inventory.getItem(slot);
-                if (stack.getItem() != Potheads.POTTED_PLANT.get()) {
+                if (stack.getItem() != ModItems.POTTED_PLANT.get()) {
                     return false;
                 }
-                FlowerPotBlock flowerPotBlock = ((PottedPlantItem) Potheads.POTTED_PLANT.get()).getBlock(stack);
+                FlowerPotBlock flowerPotBlock = ModItems.POTTED_PLANT.get().getAsBlock(stack);
                 return flowerPotBlock != flowerPotBlock.getEmptyPot() && flowerPotBlock.getContent().asItem() instanceof BlockItem;
             }
         }
@@ -43,7 +43,7 @@ public class UnpottingRecipe extends CustomRecipe {
         for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
             if (!inventory.getItem(slot).isEmpty()) {
                 ItemStack stack = inventory.getItem(slot);
-                FlowerPotBlock flowerPotBlock = ((PottedPlantItem) Potheads.POTTED_PLANT.get()).getBlock(stack);
+                FlowerPotBlock flowerPotBlock = ModItems.POTTED_PLANT.get().getAsBlock(stack);
                 return new ItemStack(flowerPotBlock.getContent().asItem());
             }
         }
@@ -57,6 +57,6 @@ public class UnpottingRecipe extends CustomRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return Potheads.PLANT_FROM_POT_CRAFTING_SERIALIZER.get();
+        return ModRecipeSerializers.UNPOTTING_SERIALIZER.get();
     }
 }

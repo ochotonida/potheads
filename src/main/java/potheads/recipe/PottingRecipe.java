@@ -9,7 +9,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerPotBlock;
-import potheads.Potheads;
+import potheads.init.ModItems;
+import potheads.init.ModRecipeSerializers;
 
 import java.util.function.Supplier;
 
@@ -55,7 +56,7 @@ public class PottingRecipe extends CustomRecipe {
         if (pottedPlant == null) {
             return ItemStack.EMPTY;
         }
-        ItemStack result = new ItemStack(Potheads.POTTED_PLANT.get());
+        ItemStack result = new ItemStack(ModItems.POTTED_PLANT.get());
         // noinspection ConstantConditions
         result.getOrCreateTag().putString("flower_pot", pottedPlant.get().getRegistryName().toString());
         return result;
@@ -68,6 +69,6 @@ public class PottingRecipe extends CustomRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return Potheads.POTTED_PLANT_CRAFTING_SERIALIZER.get();
+        return ModRecipeSerializers.POTTING_SERIALIZER.get();
     }
 }

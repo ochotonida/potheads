@@ -40,7 +40,7 @@ public class PottedPlantItem extends Item {
         super(properties);
     }
 
-    public FlowerPotBlock getBlock(ItemStack stack) {
+    public FlowerPotBlock getAsBlock(ItemStack stack) {
         if (stack.getTag() != null && stack.getTag().contains("flower_pot")) {
             String flowerPotName = stack.getTag().getString("flower_pot");
             Block flowerPot = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(flowerPotName));
@@ -51,11 +51,18 @@ public class PottedPlantItem extends Item {
         return (FlowerPotBlock) Blocks.FLOWER_POT;
     }
 
+    public ItemStack getAsItem(FlowerPotBlock flowerPot) {
+        ItemStack result = new ItemStack(this);
+        // noinspection ConstantConditions
+        result.getOrCreateTag().putString("flower_pot", flowerPot.getRegistryName().toString());
+        return result;
+    }
+
     @Override
     public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> items) {
         if (this.allowdedIn(tab)) {
             for (FlowerPotBlock flowerPot : getAllFlowerPots()) {
-                items.add(createItem(flowerPot));
+                items.add(getAsItem(flowerPot));
             }
         }
     }
@@ -68,16 +75,9 @@ public class PottedPlantItem extends Item {
                 .collect(Collectors.toList());
     }
 
-    public ItemStack createItem(FlowerPotBlock flowerPot) {
-        ItemStack result = new ItemStack(this);
-        // noinspection ConstantConditions
-        result.getOrCreateTag().putString("flower_pot", flowerPot.getRegistryName().toString());
-        return result;
-    }
-
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
-        Item emptyPot = getBlock(stack).getEmptyPot().asItem();
+        Item emptyPot = getAsBlock(stack).getEmptyPot().asItem();
         if (emptyPot == Items.AIR) {
             return ItemStack.EMPTY;
         }
@@ -159,7 +159,7 @@ public class PottedPlantItem extends Item {
 
     @Nullable
     protected BlockState getPlacementState(BlockPlaceContext context) {
-        BlockState blockstate = getBlock(context.getItemInHand()).getStateForPlacement(context);
+        BlockState blockstate = getAsBlock(context.getItemInHand()).getStateForPlacement(context);
         return blockstate != null && canPlace(context, blockstate) ? blockstate : null;
     }
 
@@ -212,7 +212,7 @@ public class PottedPlantItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        this.getBlock(stack).appendHoverText(stack, level, tooltip, flag);
+        this.getAsBlock(stack).appendHoverText(stack, level, tooltip, flag);
     }
 
     @Override

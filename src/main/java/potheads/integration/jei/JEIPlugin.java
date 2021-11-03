@@ -12,7 +12,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.common.crafting.IShapedRecipe;
-import potheads.Potheads;
+import potheads.PotHeads;
+import potheads.init.ModItems;
 import potheads.item.PottedPlantItem;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class JEIPlugin implements IModPlugin {
 
-    public static final ResourceLocation ID = new ResourceLocation(Potheads.MODID, "main");
+    public static final ResourceLocation ID = new ResourceLocation(PotHeads.MODID, "main");
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -32,7 +33,7 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        registration.useNbtForSubtypes(Potheads.POTTED_PLANT.get());
+        registration.useNbtForSubtypes(ModItems.POTTED_PLANT.get());
     }
 
     @Override
@@ -43,7 +44,7 @@ public class JEIPlugin implements IModPlugin {
     private static Collection<IShapedRecipe<?>> createRecipes() {
         List<IShapedRecipe<?>> result = new ArrayList<>();
         for (FlowerPotBlock flowerPot : PottedPlantItem.getAllFlowerPots()) {
-            ItemStack pottedPlant = Potheads.POTTED_PLANT.get().createItem(flowerPot);
+            ItemStack pottedPlant = ModItems.POTTED_PLANT.get().getAsItem(flowerPot);
             ItemStack unpottingResult = new ItemStack(flowerPot.getContent());
 
             String pottingGroup = "jei/potting";
@@ -62,8 +63,8 @@ public class JEIPlugin implements IModPlugin {
             );
 
             // noinspection ConstantConditions
-            ResourceLocation pottingId = new ResourceLocation(Potheads.MODID, "jei/potting/" + flowerPot.getRegistryName().getPath());
-            ResourceLocation unpottingId = new ResourceLocation(Potheads.MODID, "jei/unpotting/" + flowerPot.getRegistryName().getPath());
+            ResourceLocation pottingId = new ResourceLocation(PotHeads.MODID, "jei/potting/" + flowerPot.getRegistryName().getPath());
+            ResourceLocation unpottingId = new ResourceLocation(PotHeads.MODID, "jei/unpotting/" + flowerPot.getRegistryName().getPath());
 
             ShapedRecipe pottingRecipe = new ShapedRecipe(pottingId, pottingGroup, 2, 1, pottingIngredients, pottedPlant);
             ShapedRecipe unpottingRecipe = new ShapedRecipe(unpottingId, unpottingGroup, 1, 1, unpottingIngredients, unpottingResult);

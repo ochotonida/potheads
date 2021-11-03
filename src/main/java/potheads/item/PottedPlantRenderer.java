@@ -19,7 +19,7 @@ public class PottedPlantRenderer extends BlockEntityWithoutLevelRenderer {
     @Override
     public void renderByItem(ItemStack stack, ItemTransforms.TransformType transformType, PoseStack poseStack, MultiBufferSource buffer, int light, int overlay) {
         if (stack.getItem() instanceof PottedPlantItem) {
-            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(((PottedPlantItem) stack.getItem()).getBlock(stack).defaultBlockState(), poseStack, buffer, light, OverlayTexture.NO_OVERLAY, EmptyModelData.INSTANCE);
+            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(((PottedPlantItem) stack.getItem()).getAsBlock(stack).defaultBlockState(), poseStack, buffer, light, OverlayTexture.NO_OVERLAY, EmptyModelData.INSTANCE);
         }
     }
 }
