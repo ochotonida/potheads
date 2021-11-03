@@ -1,44 +1,43 @@
 package potheads.recipe;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.FlowerPotBlock;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import potheads.Potheads;
-import potheads.mixin.FlowerPotBlockAccessor;
 
 import java.util.function.Supplier;
 
-public class PottedPlantRecipe extends SpecialRecipe {
+public class PottedPlantRecipe extends CustomRecipe {
 
     public PottedPlantRecipe(ResourceLocation id) {
         super(id);
     }
 
     @Override
-    public boolean matches(CraftingInventory inventory, World world) {
-        return !getCraftingResult(inventory).isEmpty();
+    public boolean matches(CraftingContainer inventory, Level world) {
+        return !assemble(inventory).isEmpty();
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inventory) {
-        FlowerPotBlock flowerPotBlock = null;
+    public ItemStack assemble(CraftingContainer inventory) {
+        FlowerPotBlock emptyPot = null;
         ResourceLocation flower = null;
-        for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
-            ItemStack stack = inventory.getStackInSlot(slot);
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            ItemStack stack = inventory.getItem(slot);
             if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof BlockItem) {
                     Block block = ((BlockItem) stack.getItem()).getBlock();
-                    if (block instanceof FlowerPotBlock && ((FlowerPotBlock) block).getEmptyPot() == block) {
-                        if (flowerPotBlock != null) {
+                    if (block instanceof FlowerPotBlock flowerPot && flowerPot.getEmptyPot() == flowerPot) {
+                        if (emptyPot != null) {
                             return ItemStack.EMPTY; // too many pots
                         }
-                        flowerPotBlock = (FlowerPotBlock) block;
+                        emptyPot = flowerPot;
                         continue;
                     }
                     if (flower != null) {
@@ -48,10 +47,11 @@ public class PottedPlantRecipe extends SpecialRecipe {
                 }
             }
         }
-        if (flower == null || flowerPotBlock == null) {
+        if (flower == null || emptyPot == null) {
             return ItemStack.EMPTY;
         }
-        Supplier<? extends Block> pottedPlant = ((FlowerPotBlockAccessor) flowerPotBlock).getFullPots().get(flower);
+
+        Supplier<? extends Block> pottedPlant = emptyPot.getFullPotsView().get(flower);
         if (pottedPlant == null) {
             return ItemStack.EMPTY;
         }
@@ -62,12 +62,12 @@ public class PottedPlantRecipe extends SpecialRecipe {
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return Potheads.POTTED_PLANT_CRAFTING_SERIALIZER.get();
     }
 }
