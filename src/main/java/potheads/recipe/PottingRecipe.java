@@ -52,14 +52,11 @@ public class PottingRecipe extends CustomRecipe {
             return ItemStack.EMPTY;
         }
 
-        Supplier<? extends Block> pottedPlant = emptyPot.getFullPotsView().get(flower);
-        if (pottedPlant == null) {
+        Supplier<? extends Block> supplier = emptyPot.getFullPotsView().get(flower);
+        if (supplier == null || !(supplier.get() instanceof FlowerPotBlock flowerPot)) {
             return ItemStack.EMPTY;
         }
-        ItemStack result = new ItemStack(ModItems.POTTED_PLANT.get());
-        // noinspection ConstantConditions
-        result.getOrCreateTag().putString("flower_pot", pottedPlant.get().getRegistryName().toString());
-        return result;
+        return ModItems.POTTED_PLANT.get().getAsItem(flowerPot);
     }
 
     @Override

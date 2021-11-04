@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,8 +40,8 @@ public class PottedPlantItem extends Item {
     }
 
     public FlowerPotBlock getAsBlock(ItemStack stack) {
-        if (stack.getTag() != null && stack.getTag().contains("flower_pot")) {
-            String flowerPotName = stack.getTag().getString("flower_pot");
+        if (stack.getTag() != null && stack.getTag().contains("FlowerPot")) {
+            String flowerPotName = stack.getTag().getString("FlowerPot");
             Block flowerPot = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(flowerPotName));
             if (flowerPot instanceof FlowerPotBlock && flowerPot != Blocks.AIR) {
                 return (FlowerPotBlock) flowerPot;
@@ -54,7 +53,7 @@ public class PottedPlantItem extends Item {
     public ItemStack getAsItem(FlowerPotBlock flowerPot) {
         ItemStack result = new ItemStack(this);
         // noinspection ConstantConditions
-        result.getOrCreateTag().putString("flower_pot", flowerPot.getRegistryName().toString());
+        result.getOrCreateTag().putString("FlowerPot", flowerPot.getRegistryName().toString());
         return result;
     }
 
@@ -91,14 +90,7 @@ public class PottedPlantItem extends Item {
 
     @Override
     public Component getName(ItemStack stack) {
-        if (stack.getTag() != null && stack.getTag().contains("flower_pot", Tag.TAG_STRING)) {
-            String flowerPotId = stack.getTag().getString("flower_pot");
-            Block flowerPot = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(flowerPotId));
-            if (flowerPot != Blocks.AIR && flowerPot != null) {
-                return flowerPot.getName();
-            }
-        }
-        return super.getName(stack);
+        return getAsBlock(stack).getName();
     }
 
     @Override
