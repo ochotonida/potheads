@@ -114,39 +114,39 @@ public class PottedPlantItem extends Item {
             return InteractionResult.FAIL;
         }
 
-        BlockState blockstate = this.getPlacementState(placeContext);
+        BlockState blockstate = getPlacementState(placeContext);
         if (blockstate == null) {
             return InteractionResult.FAIL;
-        } else if (!this.placeBlock(placeContext, blockstate)) {
+        } else if (!placeBlock(placeContext, blockstate)) {
             return InteractionResult.FAIL;
         }
 
-        BlockPos blockpos = placeContext.getClickedPos();
+        BlockPos clickedPos = placeContext.getClickedPos();
         Level level = placeContext.getLevel();
         Player player = placeContext.getPlayer();
-        ItemStack itemstack = placeContext.getItemInHand();
-        BlockState placedState = level.getBlockState(blockpos);
+        ItemStack stack = placeContext.getItemInHand();
+        BlockState placedState = level.getBlockState(clickedPos);
         if (placedState.is(blockstate.getBlock())) {
-            placedState = this.updateBlockStateFromTag(blockpos, level, itemstack, placedState);
-            updateCustomBlockEntityTag(blockpos, level, player, itemstack);
-            placedState.getBlock().setPlacedBy(level, blockpos, placedState, player, itemstack);
+            placedState = updateBlockStateFromTag(clickedPos, level, stack, placedState);
+            BlockItem.updateCustomBlockEntityTag(level, player, clickedPos, stack);
+            placedState.getBlock().setPlacedBy(level, clickedPos, placedState, player, stack);
             if (player instanceof ServerPlayer) {
-                CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockpos, itemstack);
+                CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, clickedPos, stack);
             }
         }
 
-        level.gameEvent(player, GameEvent.BLOCK_PLACE, blockpos);
-        SoundType soundtype = placedState.getSoundType(level, blockpos, placeContext.getPlayer());
-        level.playSound(player, blockpos, this.getPlaceSound(placedState, level, blockpos, placeContext.getPlayer()), SoundSource.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+        level.gameEvent(player, GameEvent.BLOCK_PLACE, clickedPos);
+        SoundType soundtype = placedState.getSoundType(level, clickedPos, placeContext.getPlayer());
+        level.playSound(player, clickedPos, getPlaceSound(placedState, level, clickedPos, placeContext.getPlayer()), SoundSource.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
         if (player == null || !player.getAbilities().instabuild) {
-            itemstack.shrink(1);
+            stack.shrink(1);
         }
 
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    protected SoundEvent getPlaceSound(BlockState state, Level world, BlockPos pos, Player entity) {
-        return state.getSoundType(world, pos, entity).getPlaceSound();
+    protected SoundEvent getPlaceSound(BlockState state, Level level, BlockPos pos, Player entity) {
+        return state.getSoundType(level, pos, entity).getPlaceSound();
     }
 
     @Nullable
@@ -155,15 +155,11 @@ public class PottedPlantItem extends Item {
         return blockstate != null && canPlace(context, blockstate) ? blockstate : null;
     }
 
-    protected void updateCustomBlockEntityTag(BlockPos pos, Level level, @Nullable Player player, ItemStack stack) {
-        BlockItem.updateCustomBlockEntityTag(level, player, pos, stack);
-    }
-
     private BlockState updateBlockStateFromTag(BlockPos pos, Level level, ItemStack stack, BlockState state) {
         BlockState blockstate = state;
-        CompoundTag compoundtag = stack.getTag();
-        if (compoundtag != null) {
-            CompoundTag blockStateTag = compoundtag.getCompound("BlockStateTag");
+        CompoundTag tag = stack.getTag();
+        if (tag != null) {
+            CompoundTag blockStateTag = tag.getCompound("BlockStateTag");
             StateDefinition<Block, BlockState> stateDefinition = state.getBlock().getStateDefinition();
 
             for (String key : blockStateTag.getAllKeys()) {
@@ -190,11 +186,7 @@ public class PottedPlantItem extends Item {
     protected boolean canPlace(BlockPlaceContext context, BlockState state) {
         Player player = context.getPlayer();
         CollisionContext collisioncontext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
-        return (!this.mustSurvive() || state.canSurvive(context.getLevel(), context.getClickedPos())) && context.getLevel().isUnobstructed(state, context.getClickedPos(), collisioncontext);
-    }
-
-    protected boolean mustSurvive() {
-        return true;
+        return (state.canSurvive(context.getLevel(), context.getClickedPos())) && context.getLevel().isUnobstructed(state, context.getClickedPos(), collisioncontext);
     }
 
     protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
