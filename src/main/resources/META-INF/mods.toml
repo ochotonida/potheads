@@ -1,11 +1,11 @@
 modLoader="javafml"
-loaderVersion="[37,)"
+loaderVersion="[38,)"
 issueTrackerURL="https://github.com/ochotonida/potheads/issues"
 license="MIT"
 
 [[mods]]
 modId = "potheads"
-version = "1.17.1-1.0.0"
+version = "1.18-1.0.0"
 displayName = "PotHeads"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/potheads"
 logoFile="logo.png"
@@ -14,20 +14,20 @@ description='''Adds potted plants as items'''
 [[dependencies.potheads]]
     modId="forge"
     mandatory=true
-    versionRange="[37.0.102,)"
+    versionRange="[38.0.0,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.potheads]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.17.1,1.18)"
+    versionRange="[1.18,1.19)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.potheads]]
     modId="curios"
     mandatory=false
-    versionRange="[1.17.1-5.0.1.0,)"
+    versionRange="[1.18-5.0.2.1,)"
     ordering="AFTER"
     side="BOTH"

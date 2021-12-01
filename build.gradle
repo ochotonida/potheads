@@ -15,15 +15,15 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.17.1-1.0.0'
+version = '1.18-1.0.0'
 group = 'potheads'
 archivesBaseName = 'potheads'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'parchment', version: '2021.09.05-1.17.1'
+    mappings channel: 'official', version: '1.18'
 
     runs {
         client {
@@ -64,13 +64,13 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.17.1-37.0.104'
+    minecraft 'net.minecraftforge:forge:1.18-38.0.5'
 
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.17.1-5.0.1.0:api")
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.17.1-5.0.1.0")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18-5.0.2.1:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18-5.0.2.1")
 
-    compileOnly fg.deobf("mezz.jei:jei-1.17.1:8.1.0.19:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.17.1:8.1.0.19")
+    compileOnly fg.deobf("mezz.jei:jei-1.17.1:8.1.0.19:api") // TODO
+    // runtimeOnly fg.deobf("mezz.jei:jei-1.17.1:8.1.0.19")
 }
 
 jar {

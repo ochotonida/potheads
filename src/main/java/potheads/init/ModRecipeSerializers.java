@@ -2,9 +2,9 @@ package potheads.init;
 
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
-import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import potheads.PotHeads;
 import potheads.recipe.PottingRecipe;
 import potheads.recipe.UnpottingRecipe;
