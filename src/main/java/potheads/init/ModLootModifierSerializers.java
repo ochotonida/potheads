@@ -9,7 +9,7 @@ import potheads.loot.FlowerPotLootModifier;
 
 public class ModLootModifierSerializers {
 
-    public static final DeferredRegister<GlobalLootModifierSerializer<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.LOOT_MODIFIER_SERIALIZERS, PotHeads.MODID);
+    public static final DeferredRegister<GlobalLootModifierSerializer<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.Keys.LOOT_MODIFIER_SERIALIZERS, PotHeads.MODID);
 
     @SuppressWarnings("unused")
     public static final RegistryObject<FlowerPotLootModifier.Serializer> REPLACE_FLOWER_POT_DROPS = REGISTRY.register("replace_flower_pot_drops", FlowerPotLootModifier.Serializer::new);
