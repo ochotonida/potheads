@@ -1,16 +1,13 @@
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://maven.parchmentmc.org' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
@@ -23,7 +20,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.18'
+    mappings channel: 'official', version: '1.18.2'
 
     runs {
         client {
@@ -64,13 +61,13 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18-38.0.5'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.80'
 
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18-5.0.2.1:api")
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18-5.0.2.1")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.6.3:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.6.3")
 
-    compileOnly fg.deobf("mezz.jei:jei-1.17.1:8.1.0.19:api") // TODO
-    // runtimeOnly fg.deobf("mezz.jei:jei-1.17.1:8.1.0.19")
+    compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.4.1.116:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.4.1.116")
 }
 
 jar {
