@@ -22,7 +22,7 @@ public class ModItems {
         }
     };
 
-    public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, PotHeads.MODID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PotHeads.MODID);
 
-    public static final RegistryObject<PottedPlantItem> POTTED_PLANT = REGISTRY.register("potted_plant", () -> new PottedPlantItem(new Item.Properties().tab(CREATIVE_TAB)));
+    public static final RegistryObject<PottedPlantItem> POTTED_PLANT = ITEMS.register("potted_plant", () -> new PottedPlantItem(new Item.Properties().tab(CREATIVE_TAB)));
 }

@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
@@ -53,13 +53,13 @@ public class PottedPlantItem extends Item {
     public ItemStack getAsItem(FlowerPotBlock flowerPot) {
         ItemStack result = new ItemStack(this);
         // noinspection ConstantConditions
-        result.getOrCreateTag().putString("FlowerPot", flowerPot.getRegistryName().toString());
+        result.getOrCreateTag().putString("FlowerPot", ForgeRegistries.BLOCKS.getKey(flowerPot).toString());
         return result;
     }
 
     @Override
     public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> items) {
-        if (this.allowdedIn(tab)) {
+        if (this.allowedIn(tab)) {
             for (FlowerPotBlock flowerPot : getAllFlowerPots()) {
                 items.add(getAsItem(flowerPot));
             }
@@ -75,7 +75,7 @@ public class PottedPlantItem extends Item {
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack stack) {
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
         Item emptyPot = getAsBlock(stack).getEmptyPot().asItem();
         if (emptyPot == Items.AIR) {
             return ItemStack.EMPTY;
@@ -84,8 +84,8 @@ public class PottedPlantItem extends Item {
     }
 
     @Override
-    public boolean hasContainerItem(ItemStack stack) {
-        return !getContainerItem(stack).isEmpty();
+    public boolean hasCraftingRemainingItem(ItemStack stack) {
+        return !getCraftingRemainingItem(stack).isEmpty();
     }
 
     @Override
@@ -200,13 +200,13 @@ public class PottedPlantItem extends Item {
     }
 
     @Override
-    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
-        consumer.accept(new IItemRenderProperties() {
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
 
             private final BlockEntityWithoutLevelRenderer renderer = new PottedPlantRenderer();
 
             @Override
-            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 return renderer;
             }
         });

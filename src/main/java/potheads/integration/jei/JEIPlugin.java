@@ -2,22 +2,22 @@ package potheads.integration.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.VanillaRecipeCategoryUid;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraftforge.common.crafting.IShapedRecipe;
+import net.minecraftforge.registries.ForgeRegistries;
 import potheads.PotHeads;
 import potheads.init.ModItems;
 import potheads.item.PottedPlantItem;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @JeiPlugin
@@ -38,11 +38,11 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addRecipes(createRecipes(), VanillaRecipeCategoryUid.CRAFTING);
+        registration.addRecipes(RecipeTypes.CRAFTING, createRecipes());
     }
 
-    private static Collection<IShapedRecipe<?>> createRecipes() {
-        List<IShapedRecipe<?>> result = new ArrayList<>();
+    private static List<CraftingRecipe> createRecipes() {
+        List<CraftingRecipe> result = new ArrayList<>();
         for (FlowerPotBlock flowerPot : PottedPlantItem.getAllFlowerPots()) {
             ItemStack pottedPlant = ModItems.POTTED_PLANT.get().getAsItem(flowerPot);
             ItemStack unpottingResult = new ItemStack(flowerPot.getContent());
@@ -62,9 +62,13 @@ public class JEIPlugin implements IModPlugin {
                     Ingredient.of(pottedPlant)
             );
 
+            ResourceLocation id = ForgeRegistries.BLOCKS.getKey(flowerPot);
             // noinspection ConstantConditions
-            ResourceLocation pottingId = new ResourceLocation(PotHeads.MODID, "jei/potting/" + flowerPot.getRegistryName().getPath());
-            ResourceLocation unpottingId = new ResourceLocation(PotHeads.MODID, "jei/unpotting/" + flowerPot.getRegistryName().getPath());
+            String namespace = id.getNamespace();
+            String path = id.getPath();
+
+            ResourceLocation pottingId = new ResourceLocation(PotHeads.MODID, "jei/potting/%s/%s".formatted(namespace, path));
+            ResourceLocation unpottingId = new ResourceLocation(PotHeads.MODID, "jei/unpotting/%s/%s".formatted(namespace, path));
 
             ShapedRecipe pottingRecipe = new ShapedRecipe(pottingId, pottingGroup, 2, 1, pottingIngredients, pottedPlant);
             ShapedRecipe unpottingRecipe = new ShapedRecipe(unpottingId, unpottingGroup, 1, 1, unpottingIngredients, unpottingResult);

@@ -9,6 +9,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraftforge.registries.ForgeRegistries;
 import potheads.init.ModItems;
 import potheads.init.ModRecipeSerializers;
 
@@ -44,7 +45,7 @@ public class PottingRecipe extends CustomRecipe {
                     if (flower != null) {
                         return ItemStack.EMPTY; // too many flowers
                     }
-                    flower = block.getRegistryName();
+                    flower = ForgeRegistries.BLOCKS.getKey(block);
                 }
             }
         }

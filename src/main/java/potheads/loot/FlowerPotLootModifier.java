@@ -1,20 +1,29 @@
 package potheads.loot;
 
-import com.google.gson.JsonObject;
-import net.minecraft.resources.ResourceLocation;
+import com.google.common.base.Suppliers;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import potheads.init.ModItems;
 
 import javax.annotation.Nonnull;
-import java.util.List;
+import java.util.function.Supplier;
 
 public class FlowerPotLootModifier extends LootModifier {
+
+    public static final Supplier<Codec<FlowerPotLootModifier>> CODEC = Suppliers.memoize(
+            () -> RecordCodecBuilder.create(instance -> codecStart(instance)
+                    .apply(instance, FlowerPotLootModifier::new)
+            )
+    );
 
     protected FlowerPotLootModifier(LootItemCondition[] conditions) {
         super(conditions);
@@ -22,7 +31,7 @@ public class FlowerPotLootModifier extends LootModifier {
 
     @Nonnull
     @Override
-    protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+    protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         if (!context.hasParam(LootContextParams.BLOCK_STATE)) {
             return generatedLoot;
         }
@@ -33,10 +42,13 @@ public class FlowerPotLootModifier extends LootModifier {
         boolean containsPot = false;
         boolean containsPlant = false;
 
+        Item emptyPot = flowerPot.getEmptyPot().asItem();
+        Item plant = flowerPot.getContent().asItem();
+
         for (ItemStack stack : generatedLoot) {
-            if (stack.getItem() == flowerPot.getEmptyPot().asItem()) {
+            if (stack.getItem() == emptyPot) {
                 containsPot = true;
-            } else if (stack.getItem() == flowerPot.getContent().asItem()) {
+            } else if (stack.getItem() == plant) {
                 containsPlant = true;
             }
         }
@@ -45,24 +57,16 @@ public class FlowerPotLootModifier extends LootModifier {
             return generatedLoot;
         }
 
-        generatedLoot.removeIf(stack -> stack.getItem() == flowerPot.getEmptyPot().asItem());
-        generatedLoot.removeIf(stack -> stack.getItem() == flowerPot.getContent().asItem());
+        generatedLoot.removeIf(stack -> stack.getItem() == emptyPot);
+        generatedLoot.removeIf(stack -> stack.getItem() == plant);
 
         generatedLoot.add(ModItems.POTTED_PLANT.get().getAsItem(flowerPot));
 
         return generatedLoot;
     }
 
-    public static class Serializer extends GlobalLootModifierSerializer<FlowerPotLootModifier> {
-
-        @Override
-        public FlowerPotLootModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] conditions) {
-            return new FlowerPotLootModifier(conditions);
-        }
-
-        @Override
-        public JsonObject write(FlowerPotLootModifier instance) {
-            return makeConditions(instance.conditions);
-        }
+    @Override
+    public Codec<? extends IGlobalLootModifier> codec() {
+        return CODEC.get();
     }
 }

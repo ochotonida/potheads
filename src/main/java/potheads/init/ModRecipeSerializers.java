@@ -11,8 +11,8 @@ import potheads.recipe.UnpottingRecipe;
 
 public class ModRecipeSerializers {
 
-    public static final DeferredRegister<RecipeSerializer<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, PotHeads.MODID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, PotHeads.MODID);
 
-    public static final RegistryObject<RecipeSerializer<?>> POTTING_SERIALIZER = REGISTRY.register("potting", () -> new SimpleRecipeSerializer<>(PottingRecipe::new));
-    public static final RegistryObject<RecipeSerializer<?>> UNPOTTING_SERIALIZER = REGISTRY.register("unpotting", () -> new SimpleRecipeSerializer<>(UnpottingRecipe::new));
+    public static final RegistryObject<RecipeSerializer<?>> POTTING_SERIALIZER = RECIPE_SERIALIZERS.register("potting", () -> new SimpleRecipeSerializer<>(PottingRecipe::new));
+    public static final RegistryObject<RecipeSerializer<?>> UNPOTTING_SERIALIZER = RECIPE_SERIALIZERS.register("unpotting", () -> new SimpleRecipeSerializer<>(UnpottingRecipe::new));
 }

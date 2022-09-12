@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 public class PottedPlantRenderer extends BlockEntityWithoutLevelRenderer {
 
@@ -19,7 +19,8 @@ public class PottedPlantRenderer extends BlockEntityWithoutLevelRenderer {
     @Override
     public void renderByItem(ItemStack stack, ItemTransforms.TransformType transformType, PoseStack poseStack, MultiBufferSource buffer, int light, int overlay) {
         if (stack.getItem() instanceof PottedPlantItem) {
-            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(((PottedPlantItem) stack.getItem()).getAsBlock(stack).defaultBlockState(), poseStack, buffer, light, OverlayTexture.NO_OVERLAY, EmptyModelData.INSTANCE);
+            //noinspection ConstantConditions
+            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(((PottedPlantItem) stack.getItem()).getAsBlock(stack).defaultBlockState(), poseStack, buffer, light, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, null);
         }
     }
 }
