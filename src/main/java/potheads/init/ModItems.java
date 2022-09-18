@@ -3,7 +3,8 @@ package potheads.init;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.DeferredRegister;
@@ -18,7 +19,7 @@ public class ModItems {
         @Override
         @OnlyIn(Dist.CLIENT)
         public ItemStack makeIcon() {
-            return new ItemStack(Items.FLOWER_POT);
+            return ModItems.POTTED_PLANT.get().getAsItem(((FlowerPotBlock) Blocks.POTTED_BAMBOO));
         }
     };
 
